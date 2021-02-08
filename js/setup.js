@@ -74,12 +74,13 @@ chrome.runtime.onMessage.addListener(function(request) {
   }
 });
 
-chrome.runtime.onMessageExternal.addListener(function(request, _sender, _sendResponse){
+chrome.runtime.onMessageExternal.addListener(function(request, sender, _sendResponse){
   // injectOverwriteAppendBuffer.js injects a script, which grabs data from
   // SourceBuffer.appendBuffer and sends them here.
   // due to code injection limitations, this only works on localhost
   // for any other url, you have to adjust the manifest.json and extend content_scripts.matches
-  if (request.type === 'segment-appended') {
+  const comesFromInspectedTab = sender.tab.id === chrome.devtools.inspectedWindow.tabId;
+  if (request.type === 'segment-appended' && comesFromInspectedTab) {
     const buffer = base64ToArrayBuffer(request.data);
     const parsedBox = ISOBoxer.parseBuffer(buffer);
     const url = `pushed://to/sourceBuffer/appendedData_${pushedCounter++}.mp4`;
