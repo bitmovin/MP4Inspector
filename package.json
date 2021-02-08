@@ -1,0 +1,9 @@
+{
+  "name": "chrome-mp4-inspector-extension",
+  "version": "0.0.1",
+  "description": "Inspect Mp4 Boxes from the Network tab",
+  "scripts": {
+  },
+  "author": "Kenny, Wolfram",
+  "license": "MIT"
+}

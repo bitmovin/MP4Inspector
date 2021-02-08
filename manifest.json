@@ -1,0 +1,27 @@
+{
+  "name": "Mp4 Inspector",
+  "version": "1.0",
+  "description": "Inspect Mp4 Boxes from the Network tab!",
+  "manifest_version": 2,
+  "devtools_page": "html/main.html",
+  "permissions": [
+    "webRequest"
+  ],
+  "externally_connectable": {
+    "matches": ["*://localhost/*"]
+  },
+  "content_scripts": [{
+    "matches": ["*://localhost/*"],
+    "js": ["js/injectOverwriteAppendBuffer.js"]
+  }],
+  "commands": {
+    "reload": {
+      "description": "Reloads the content page",
+      "suggested_key": {
+        "default": "Ctrl+R",
+        "windows": "Ctrl+R",
+        "mac": "Command+R"
+      }
+    }
+  }
+}

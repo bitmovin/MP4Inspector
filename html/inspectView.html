@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Foo</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="box">
+  <div class="row header">
+    <div id="toolbar">
+      <table id="button-table">
+        <tr>
+          <td><button id="record-button" data-state="active"><span id="record-button-glyph" class="sprite button-glyph" title="Toggle recording"></span></button></td>
+          <td><button id="clear-button" data-state="active"><span id="clear-button-glyph" class="sprite button-glyph" title="Clear requests"></span></button></td>
+          <td><button id="reload-button" data-state="active"><span id="reload-button-glyph" class="sprite button-glyph" title="Reload page"></span></button></td>
+          <td><div class="toolbar-separator"></div></td>
+          <td><button id="filter-button" data-state="inactive"><span id="filter-button-glyph" class="sprite button-glyph"></span></button></td>
+          <td><input type="text" id="filename-filter-text-input" placeholder="Filename Filter" class="hidden"></td>
+          <td><div class="toolbar-separator"></div></td>
+          <td><button id="search-button" data-state="inactive"><span id="search-button-glyph" class="sprite button-glyph"></span></button></td>
+          <td><input type="text" id="box-search-text-input" placeholder="Box Search" class="hidden"></td>
+          <td><div class="toolbar-separator"></div></td>
+          <td><input type="checkbox" id="preserve-log-checkbox"></td>
+          <td><label for="preserve-log-checkbox">Preserve log</label></td>
+          <td><div class="toolbar-separator"></div></td>
+          <td><button id="compare-button" data-state="inactive"><span id="compare-button-glyph" class="button-glyph sprite" title="Compare boxes"></span></button></td>
+          <td><button id="download-button" data-state="inactive"><span id="download-button-glyph" class="button-glyph sprite" title="Download"></span></button></td>
+          <td><input type="checkbox" id="concat-downloads-checkbox"></td>
+          <td><label for="concat-downloads-checkbox">Concat segment download</label></td>
+        </tr>
+      </table>
+    </div>
+    <div id="divider"></div>
+  </div>
+  <div class="row content">
+    <div class="flex">
+      <div id="requestList">
+        <table id="requests" class="hover-table">
+          <tr><td></td></tr>
+        </table>
+      </div>
+      <div id="detailView">
+        <table id="detail-view-placeholder">
+          <tr>
+            <td>
+              Click on an ISOBMFF segment to display its contents.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script src="../js/lib/iso_boxer.js"></script>
+<script src="../js/lib/split.min.js"></script>
+<script src="../js/toolbar.js"></script>
+<script src="../js/HtmlRenderer.js"></script>
+<script src="../js/inspect.js"></script>
+<script src="../js/setup.js"></script>
+</html>

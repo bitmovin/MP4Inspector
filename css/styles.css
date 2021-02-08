@@ -1,0 +1,371 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background-color: rgb(36, 36, 36);
+    color: rgb(189, 198, 207);
+}
+
+.box {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.box .row.header {
+    flex: 0 1 auto;
+}
+
+.box .row.content {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.flex {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.gutter.gutter-horizontal {
+    float: left;
+}
+
+.gutter.gutter-horizontal {
+    cursor: ew-resize;
+    height: 100%;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: rgb(82, 82, 82);
+}
+
+#toolbar {
+    background-color: rgb(51, 51, 51);
+    height: auto;
+    flex-direction: row;
+}
+
+#divider {
+    width: 100%;
+    border-top: 1px solid rgb(82, 82, 82);
+    border-bottom: 1px solid rgb(61, 61, 61);
+}
+
+#requestList, #detailView {
+    height: 100%;
+    overflow: auto;
+}
+
+.iso-box {
+    position: relative;
+    padding: 5px;
+    display: table;
+}
+
+.iso-box[level=root] {
+    left: 0;
+}
+
+.iso-box[level=sub] {
+    left: 25px;
+}
+
+.box-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.collapsed div, .collapsed table {
+    display: none;
+}
+
+.collapse-icon {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 1.5em;
+    zoom: 0.8;
+}
+
+.hidden {
+    display: none;
+    height: 0;
+}
+
+td.attribute {
+    padding: 0px 10px;
+  }
+
+table.attribute-container {
+    margin-bottom: 5px;
+    border: 1px solid rgb(82, 82, 82);
+}
+
+#requests {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.hover-table > tr:nth-child(even) {
+    background: rgb(36, 36, 36);
+}
+
+.hover-table > tr:nth-child(odd) {
+    background: rgb(41, 41, 41);
+}
+
+#requests > tr {
+    cursor: pointer;
+    width: 100%;
+}
+
+.hover-table > tr:hover {
+    background-color: rgb(27, 37, 53);
+}
+
+#requests > tr[data-state=active] {
+    background-color: rgb(43, 99, 151);
+}
+
+#requests > tr[data-state=marked] {
+    background-color: rgb(0, 153, 33);
+}
+
+#requests td {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#requests td a {
+    color: rgb(189, 198, 207);
+    text-decoration: none;
+}
+
+#button-table {
+    border-collapse: collapse;
+    border-style: none;
+    user-select: none;
+}
+
+.sprite {
+    -webkit-mask-image: url("../images/largeIcons.svg");
+}
+
+.button-glyph {
+    width: 24px;
+    height: 24px;
+}
+
+#record-button-glyph {
+    -webkit-mask-position: -30px 0;
+}
+
+#record-button[data-state=inactive] > span, #record-button[data-state=inactive]:active:hover > span {
+    background-color: rgb(145, 145, 145);
+}
+
+#record-button[data-state=inactive]:hover > span {
+    background-color: rgb(204, 204, 204);
+}
+
+#record-button[data-state=active] > span, #record-button[data-state=active]:hover > span {
+    background-color: rgb(255, 77, 77);
+}
+
+#clear-button-glyph, #clear-button-glyph:active:hover {
+    -webkit-mask-position: -3px -73px;
+    background-color: rgb(145, 145, 145);
+}
+
+#clear-button-glyph:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+#reload-button-glyph, #reload-button-glyph:active:hover {
+    -webkit-mask-position: -86px -168px;
+    background-color: rgb(145, 145, 145);
+}
+
+#reload-button-glyph:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+#filter-button-glyph {
+    -webkit-mask-position: -58px -97px;
+}
+
+#filter-button[data-state=inactive] > span, #filter-button[data-state=inactive]:active:hover > span {
+    background-color: rgb(145, 145, 145);
+}
+
+#filter-button[data-state=inactive]:hover > span {
+    background-color: rgb(204, 204, 204);
+}
+
+#filter-button[data-state=active] > span, #filter-button[data-state=active]:hover > span {
+    background-color: rgb(14, 99, 156);
+}
+
+#filter-button[data-state=has-data] > span, #filter-button[data-state=has-data]:hover > span {
+    background-color: rgb(255, 77, 77);
+}
+
+#search-button-glyph {
+    -webkit-mask-position: -197px -121px;
+}
+
+#search-button[data-state=inactive] > span, #search-button[data-state=inactive]:active:hover > span {
+    background-color: rgb(145, 145, 145);
+}
+
+#search-button[data-state=inactive]:hover > span {
+    background-color: rgb(204, 204, 204);
+}
+
+#search-button[data-state=active] > span, #search-button[data-state=active]:hover > span {
+    background-color: rgb(14, 99, 156);
+}
+
+#search-button[data-state=has-data] > span, #search-button[data-state=has-data]:hover > span {
+    background-color: rgb(255, 77, 77);
+}
+
+#test-button-glyph {
+    -webkit-mask-position: -30px 0;
+    background-color: blue;
+}
+
+#compare-button-glyph {
+    -webkit-mask-position: -198px -25px;
+}
+#compare-button[data-state="active"] > span {
+    background-color: rgb(14, 99, 156);
+}
+#compare-button[data-state=inactive] > span {
+    background-color: rgb(145, 145, 145);
+}
+
+#download-button-glyph {
+    -webkit-mask-position: 52px 144px;
+}
+#download-button[data-state="active"] > span {
+    background-color: rgb(14, 99, 156);
+}
+#download-button[data-state=inactive] > span {
+    background-color: rgb(145, 145, 145);
+}
+
+#toolbar button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: transparent;
+    user-select: none;
+    outline: none;
+}
+
+.toolbar-separator {
+    border-right: 1px solid rgb(61, 61, 61);
+    padding-top: 15px;
+    height: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#button-table input {
+    background-color: rgb(36, 36, 36);
+    color: rgb(189, 198, 207);
+    border: 1px solid rgb(36, 36, 36);
+    outline-width: 0;
+    font-size: 12px;
+}
+
+#button-table input::placeholder {
+    color: rgb(127, 127, 127);
+    opacity: 1;
+}
+
+#button-table input:hover {
+    border: 1px solid rgb(90, 90, 90);
+}
+
+#button-table input:focus {
+    border: 1px solid rgb(43, 94, 144);
+}
+
+#toolbar label {
+    color: rgb(165, 165, 165);
+}
+
+#toolbar label:hover {
+    color: rgb(204, 204, 204);
+}
+
+#preserve-log-checkbox, #concat-downloads-checkbox {
+    border: 1px solid rgb(133, 133, 133);
+    background-color: rgb(51, 51, 51);
+}
+
+#preserve-log-checkbox:active, #concat-downloads-checkbox:active {
+    border: 1px solid rgb(157, 157, 157);
+}
+
+#detail-view-placeholder {
+    width: 100%;
+    height: 100%;
+    text-align-all: center;
+}
+
+#detail-view-placeholder td {
+    text-align: center;
+}
+
+.file-url {
+    word-wrap: break-word;
+    white-space: normal;
+    display: block;
+    padding: 5px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* comparison view */
+.unique {
+    background-color: rgb(153, 114, 15);
+}
+.difference {
+    background-color: rgb(85, 14, 14);
+}
+.equal {
+    background-color: rgb(4, 65, 4);
+}
+
+.hex-button {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#hex-table {
+    border-collapse: collapse;
+    border: 1px solid rgb(82, 82, 82);
+    margin: 10px;
+}
+
+#hex-table tr {
+    border-bottom: 1px solid rgb(82, 82, 82);
+}
+
+#hex-table td {
+    padding: 3px;
+    text-align: center;
+}
+
+.hex-separator {
+    width: 20px;
+}
+
+.hex-offset {
+    text-align: right !important;
+    font-weight: bold;
+}
