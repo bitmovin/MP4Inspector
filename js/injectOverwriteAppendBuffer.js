@@ -4,7 +4,6 @@ const scriptToInject =
   console.log('injecting' + chrome.runtime.id, SourceBuffer.prototype.appendBuffer);
 
   SourceBuffer.prototype.appendBuffer = function (data) {
-    console.log('Append buffer called', this);
     chrome.runtime.sendMessage('${chrome.runtime.id}', {
       type: 'segment-appended',
       data: arrayBufferToBase64(data),
