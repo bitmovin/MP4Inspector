@@ -1,15 +1,14 @@
+let toolbarHandler;
+let requestRenderer;
+let pushedCounter = 0;
+
 window.onbeforeunload = function() {
   closeOpenPopupWindows();
 };
 
-/** @type ToolbarHandler */
-let toolbarHandler;
-/** @type NetworkRequestRenderer */
-let requestRenderer;
-let pushedCounter = 0;
-
 chrome.devtools.network.onNavigated.addListener(function() {
   pushedCounter = 0;
+
   if (!toolbarHandler.shouldPreserveLog()) {
     toolbarHandler.clearList();
     clearDetailView();
@@ -47,12 +46,15 @@ chrome.devtools.network.onRequestFinished.addListener(
     if (!toolbarHandler.shouldRecord()) {
       return;
     }
+
     response.getContent((content, encoding) => {
       if (encoding !== 'base64') {
         console.log('No base64 encoding for ' + response.request.url + ' skipping');
         rawDataMap.set(response.request.url, content);
+
         return;
       }
+
       const buffer = stringToArrayWithoutEncoding(atob(content)).buffer;
       const parsedBox = ISOBoxer.parseBuffer(buffer);
 
@@ -80,6 +82,7 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, _sendResp
   // due to code injection limitations, this only works on localhost
   // for any other url, you have to adjust the manifest.json and extend content_scripts.matches
   const comesFromInspectedTab = sender.tab.id === chrome.devtools.inspectedWindow.tabId;
+
   if (request.type === 'segment-appended' && comesFromInspectedTab) {
     const buffer = base64ToArrayBuffer(request.data);
     const parsedBox = ISOBoxer.parseBuffer(buffer);
@@ -88,5 +91,6 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, _sendResp
     parsedDataMap.set(url, parsedBox);
     requestRenderer.addNetworkRequestEntry(url);
   }
+
   console.log('chrome.runtime.onMessageExternal', request)
 });

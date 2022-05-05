@@ -1,4 +1,3 @@
-
 const maxFilenameLength = 80;
 const hexBoxesToViewInPopupWindow = [];
 
@@ -6,11 +5,12 @@ class NetworkRequestRenderer {
   list = document.getElementById("requestList");
 
   addNetworkRequestEntry(url) {
-    let fileName = url.split("/").pop();
+    let fileName = url.split("/").pop() ?? '';
 
     if (fileName.includes("?")) {
       fileName = fileName.substring(0, fileName.indexOf("?"));
     }
+
     if (fileName.length > maxFilenameLength) {
       fileName = fileName.substring(0, maxFilenameLength - 3) + "...";
     }
@@ -42,8 +42,7 @@ class NetworkRequestRenderer {
     cell.appendChild(anchor);
     row.appendChild(cell);
 
-    const shouldScroll =
-      this.list.scrollTop + this.list.clientHeight === this.list.scrollHeight;
+    const shouldScroll = this.list.scrollTop + this.list.clientHeight === this.list.scrollHeight;
 
     requestTable.appendChild(row);
 
@@ -76,37 +75,33 @@ class BoxRenderer {
     this._url = url;
   }
 
-  /**
-   * @param {ISOBox} parsedBox 
-   * @param {HTMLElement} parent 
-   * @param {number} level 
-   */
   renderBoxes(parsedBox, parent, level) {
-    if (!parsedBox.boxes || parsedBox.boxes.length == 0) {
+    if (!parsedBox.boxes || parsedBox.boxes.length === 0) {
       return;
     }
+
     if (detailViewPlaceholder) {
       hideElement(detailViewPlaceholder);
     }
+
     parsedBox.boxes.forEach((box) => {
       const newBox = this.appendBox(box, parent, level);
       this.renderBoxes(box, newBox, level + 1);
     });
   }
 
-  /**
-   * @param {ISOBox} box 
-   * @param {HTMLElement} parent 
-   * @param {number} level 
-   */
   appendBox(box, parent, level) {
     const boxContainer = document.createElement('div');
+    const collapseIcon = document.createElement('span');
+    const expandIcon = document.createElement('span');
+    const header = document.createElement('span');
+
+    let hexButton = null;
+
     boxContainer.classList.add('iso-box', box.type.trim());
     boxContainer.setAttribute('level', level === 0 ? 'root' : 'sub');
-    const collapseIcon = document.createElement('span');
     collapseIcon.innerHTML = '&#9660;';
     collapseIcon.classList.add('collapse-icon');
-    const expandIcon = document.createElement('span');
     expandIcon.innerHTML = '&#9654;';
     expandIcon.classList.add('collapse-icon');
   
@@ -117,7 +112,7 @@ class BoxRenderer {
       boxContainer.classList.add('expanded');
       expandIcon.classList.add('hidden');
     }
-    const header = document.createElement('span');
+
     header.classList.add('box-name');
     header.innerText = box.type;
   
@@ -128,10 +123,7 @@ class BoxRenderer {
       expandIcon.classList.toggle('hidden');
     };
   
-    let hexButton = null;
-  
     try {
-  
       let boxPath = '';
       let parentBox = box;
   
@@ -143,14 +135,12 @@ class BoxRenderer {
       hexButton.innerHTML = 'hex';
       hexButton.setAttribute('path', boxPath);
       hexButton.classList.add('hex-button');
-  
       hexButton.addEventListener('click', () => this.onHexButtonClicked(boxPath, box));
     } catch(e) {
       console.error(e);
     }
   
     header.onclick = clickHandler;
-  
     boxContainer.appendChild(collapseIcon);
     boxContainer.appendChild(expandIcon);
     collapseIcon.onclick = clickHandler;
@@ -162,26 +152,26 @@ class BoxRenderer {
     }
   
     this.appendAttributes(box, boxContainer);
-  
     parent.appendChild(boxContainer);
+
     return boxContainer;
   }
 
   appendAttributes(isoBox, container) {
     const attributeTable = document.createElement('table');
+    const tableBody = document.createElement('tbody');
+    const properties = Object.keys(isoBox);
+
     attributeTable.classList.add('attribute-container');
     container.appendChild(attributeTable);
-  
-    const tableBody = document.createElement('tbody');
     tableBody.classList.add('hover-table');
     attributeTable.appendChild(tableBody);
-  
-    const properties = Object.keys(isoBox);
-  
+
     properties.forEach((prop) => {
       if (this.ignoredAttributes.includes(prop)) {
         return;
       }
+
       this.createAttributeTableRow(prop, isoBox[prop], tableBody);
     });
   }
@@ -189,9 +179,10 @@ class BoxRenderer {
   onHexButtonClicked(boxPathStr, currentBox) {
     try {
       const boxPath = boxPathStr.split('/').filter(str => str !== '');
-  
-      const data = currentBox._raw.buffer.slice(currentBox._raw.byteOffset,
-        currentBox._raw.byteOffset + currentBox._raw.byteLength);
+      const data = currentBox._raw.buffer.slice(
+        currentBox._raw.byteOffset,
+        currentBox._raw.byteOffset + currentBox._raw.byteLength
+      );
       const dataBase64 = arrayBufferToBase64(data);
   
       chrome.windows.create({
@@ -205,6 +196,7 @@ class BoxRenderer {
         if(request.type !== 'popup-opened') {
           return;
         }
+
         chrome.runtime.onMessage.removeListener(popupOpenedListener);
         chrome.runtime.sendMessage({
           type: 'show-hex',
@@ -213,6 +205,7 @@ class BoxRenderer {
           url: this._url,
         });
       };
+
       chrome.runtime.onMessage.addListener(popupOpenedListener);
     } catch (e) {
       console.error(e);
@@ -221,16 +214,16 @@ class BoxRenderer {
 
   createAttributeTableRow(name, value, parent) {
     const row = document.createElement('tr');
-    row.classList.add('attribute-row');
     const nameCell = document.createElement('td');
+    const valueCell = document.createElement('td');
+
+    row.classList.add('attribute-row');
     nameCell.innerText = name;
     nameCell.classList.add('attribute', 'attribute-name', name);
-    const valueCell = document.createElement('td');
     this.appendAttributeValue(value, valueCell);
     valueCell.classList.add('attribute', 'attribute-value', name);
     row.appendChild(nameCell);
     row.appendChild(valueCell);
-  
     parent.appendChild(row);
   }
   
@@ -239,6 +232,7 @@ class BoxRenderer {
       parent.appendChild(document.createTextNode(value));
       return;
     }
+
     if (value == null) {
       parent.appendChild(document.createTextNode('<no value>'));
       return;
@@ -247,6 +241,7 @@ class BoxRenderer {
     if (Array.isArray(value)) {
       const table = document.createElement('table');
       const tbody = document.createElement('tbody');
+
       tbody.classList.add('hover-table');
       table.appendChild(tbody);
   
@@ -255,7 +250,9 @@ class BoxRenderer {
         this.appendAttributeValue(single, row, depth + 1);
         tbody.appendChild(row);
       });
+
       parent.appendChild(table);
+
       return;
     }
     if (typeof value === 'object') {
@@ -266,18 +263,22 @@ class BoxRenderer {
   
       const table = document.createElement('table');
       const tbody = document.createElement('tbody');
+
       tbody.classList.add('hover-table');
       table.appendChild(tbody);
   
       Object.keys(value).forEach(name => {
         const row = document.createElement('tr');
         const nameCell = document.createElement('td');
+        const subValue = this.appendAttributeValue(value[name], row, depth + 1);
+
         nameCell.appendChild(document.createTextNode(name));
         row.appendChild(nameCell);
-        const subValue = this.appendAttributeValue(value[name], row, depth + 1);
         tbody.appendChild(row);
       });
+
       parent.appendChild(table);
+
       return;
     }
   

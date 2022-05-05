@@ -2,11 +2,9 @@ class ToolbarHandler {
   recordingButton = document.getElementById('record-button');
   clearButton = document.getElementById('clear-button');
   reloadButton = document.getElementById('reload-button');
-  /** @type HTMLInputElement */
   preserveLogCheckbox = document.getElementById('preserve-log-checkbox');
   compareButton = document.getElementById('compare-button');
   downloadButton = document.getElementById('download-button');
-  /** @type HTMLInputElement */
   concatSegmentDownload = document.getElementById('concat-downloads-checkbox');
   downloadLink = document.createElement("a");
   _isRecording = true;
@@ -57,6 +55,7 @@ class ToolbarHandler {
     } else {
       this.compareButton.setAttribute('data-state', 'inactive');
     }
+
     if (selectionTracker.allSelected.length > 0) {
       this.downloadButton.setAttribute('data-state', 'active');
     } else {
@@ -65,10 +64,11 @@ class ToolbarHandler {
   }
 
   onCompareClicked = () => {
-    // const selectedRows = requestTable.querySelectorAll('tr[data-state="active"]');
     const selectedRows = selectionTracker.allSelected;
-    if (selectedRows.length != 2) {
+
+    if (selectedRows.length !== 2) {
       alert('You need to select exactly 2 segments to compare');
+
       return;
     }
   
@@ -85,7 +85,6 @@ class ToolbarHandler {
     const popupOpenedListener = (request) => {
       if (request.type === 'comparison-opened') {
         chrome.runtime.onMessage.removeListener(popupOpenedListener);
-
         chrome.runtime.sendMessage({
           type: "render-comparison",
           data: [{
@@ -103,23 +102,27 @@ class ToolbarHandler {
   }
 
   onDownloadRequested = () => {
-    const shouldConcatenate = this.concatSegmentDownload.checked;
-    // don't use the allSelected of the selection tracker, since we need it in the order it was downloaded
-    // let selection = requestTable.querySelectorAll('tr[data-state=active]');
-    let selection = selectionTracker.allSelected;
     const elementsToConcat = [];
+    const shouldConcatenate = this.concatSegmentDownload.checked;
+
+    let selection = selectionTracker.allSelected;
 
     selection.forEach(row => {
       const url = row.getAttribute('url');
+
       let data = parsedDataMap.get(url);
+
       if (!data && !shouldConcatenate) {
         // only use raw data, if we won't concatenate the elements
         data = rawDataMap.get(url);
       }
+
       if (!data) {
         console.error('Could not find data to download for ' + url);
+
         return;
       }
+
       if (data._raw) {
         data = data._raw;
       }
@@ -128,6 +131,7 @@ class ToolbarHandler {
         elementsToConcat.push(data);
       } else {
         const fileName = url.substr(url.lastIndexOf('/'));
+
         this.downloadData(data, fileName);
       }
     });
@@ -149,7 +153,9 @@ class ToolbarHandler {
     } else {
       data = new Blob([data]);
     }
+
     const url = window.URL.createObjectURL(data);
+
     this.downloadLink.href = url;
     this.downloadLink.download = fileName;
     this.downloadLink.click();
@@ -159,8 +165,10 @@ class ToolbarHandler {
 
 function concatenateBuffers(arr1, arr2) {
   const result = new Uint8Array(arr1.byteLength + arr2.byteLength);
+
   result.set(new Uint8Array(arr1), 0);
   result.set(new Uint8Array(arr2), arr1.byteLength);
+
   return result;
 }
 
@@ -176,56 +184,62 @@ class FilterHandler {
     this.searchTextInput.addEventListener('input', this.onBoxSearchTextChanged);
     this.filterTextInput.addEventListener('change', this.onFilenameFilterTextInput);
     this.searchTextInput.addEventListener('change', this.onBoxSearchTextInput);
-
     this.filterButton.addEventListener('click', this.onFilterButtonClicked);
     this.searchButton.addEventListener('click', this.onSearchButtonClicked);
   }
 
-  /**
-   * @param {string} boxNameQueryString 
-   * @param {Map} collection
-   */
   filterBoxes(boxNameQueryString, collection) {
     const keys = collection.keys();
+
     let matches = [];
     let currentKey;
+
     while(true) {
       currentKey = keys.next();
+
       if (currentKey.done) {
         break;
       }
+
       const url = currentKey.value;
       const parsed = collection.get(url);
+
       if (!parsed || !parsed.fetchAll) {
         matches.push(url);
+
         continue;
       }
+
       const boxes = parsed.fetchAll(boxNameQueryString);
+
       if (!boxes || boxes.length < 1) {
         matches.push(url);
       }
     }
+
     return matches;
   }
 
-  /**
-   * @param {string} partialUrl 
-   * @param {Map} collection
-   */
   filterUrls(partialUrl, collection){
     const urls = collection.keys();
+
     let matches = [];
     let currentKey;
+
     while(true) {
       currentKey = urls.next();
+
       if (currentKey.done) {
         break;
       }
+
       const url = currentKey.value;
+
       if (!url.includes(partialUrl)) {
         matches.push(url);
       }
     }
+
     return matches;
   }
 
@@ -251,10 +265,12 @@ class FilterHandler {
 
   applyFilters() {
     const mismatchingUrls = [];
+
     if (this.filterTextInput.value !== "") {
       mismatchingUrls.push(...this.filterUrls(this.filterTextInput.value, parsedDataMap));
       mismatchingUrls.push(...this.filterUrls(this.filterTextInput.value, rawDataMap));
     }
+
     if (this.searchTextInput.value !== "") {
       mismatchingUrls.push(...this.filterBoxes(this.searchTextInput.value, parsedDataMap));
       mismatchingUrls.push(...this.filterBoxes(this.searchTextInput.value, rawDataMap));
@@ -263,24 +279,27 @@ class FilterHandler {
     this.filterNonMatchingUrls(mismatchingUrls);
   }
 
-  /**
-   * @param {string} url 
-   */
   shouldNewEntryBeVisible(url) {
     let isMatching = true;
+
     if (this.filterTextInput.value !== "") {
       isMatching = url.includes(this.filterTextInput.value);
     }
+
     if (isMatching && this.searchTextInput.value !== "") {
       const parsed = parsedDataMap.get(url);
+
       if (!parsed) {
         return false;
       }
+
       const boxes = parsed.fetchAll(this.searchTextInput.value);
+
       if (!boxes || boxes.length < 1) {
         isMatching = false;
       }
     }
+
     return isMatching;
   }
 
@@ -295,9 +314,11 @@ class FilterHandler {
   filterNonMatchingUrls(matchingUrls) {
     matchingUrls.forEach(url => {
       const targets = document.getElementsByClassName(url);
+
       if (targets) {
         for(let i = 0; i< targets.length; i++) {
           const target  = targets.item(i);
+
           hideElement(target);
         }
       } else {
@@ -354,5 +375,3 @@ function hideElement(element) {
 function toggleElementVisibility(element) {
   element && element.classList.toggle('hidden');
 }
-
-

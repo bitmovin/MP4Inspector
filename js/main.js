@@ -1,1 +1,1 @@
-chrome.devtools.panels.create('Mp4 Inspector', '', 'html/inspectView.html');
+chrome.devtools.panels.create('MP4 Inspector', '', 'html/inspectView.html');

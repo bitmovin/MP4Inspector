@@ -1,7 +1,5 @@
 const windowId = Date.now();
 
-let handled = false;
-
 // Inform the extension that we opened the window
 chrome.runtime.sendMessage({ type: 'popup-opened', windowId: windowId });
 
@@ -27,22 +25,22 @@ chrome.runtime.onMessage.addListener(function(request) {
 });
 
 // Wait for the extension to acknowledge that this window was opened
-chrome.runtime.onMessage.addListener(function(request) {
-  if (request.type === 'render-box' && !handled) {
+chrome.runtime.onMessage.addListener(onMessage);
+
+function onMessage(request) {
+  if (request.type === 'render-box') {
+    const renderer = new BoxRenderer(request.url);
     const fileNameSpan = document.createElement('span');
+    const parsedBox = ISOBoxer.parseBuffer(base64ToArrayBuffer(request.data));
+
     fileNameSpan.classList.add('file-url');
     fileNameSpan.setAttribute('id', 'file-url-span');
     fileNameSpan.innerHTML = 'File: ' + request.url;
     detailView.appendChild(fileNameSpan);
-
-    const parsedBox = ISOBoxer.parseBuffer(base64ToArrayBuffer(request.data));
-
     parsedDataMap.set(request.url, parsedBox);
-
-    const renderer = new BoxRenderer(request.url);
     renderer.renderBoxes(parsedBox, detailView, 0);
     document.title = 'MP4 Inspector - File: ' + request.url;
 
-    handled = true;
+    chrome.runtime.onMessage.removeListener(onMessage);
   }
-});
+}

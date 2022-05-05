@@ -1,8 +1,8 @@
 {
-  "name": "Mp4 Inspector",
+  "name": "MP4 Inspector",
   "version": "1.0",
-  "description": "Inspect Mp4 Boxes from the Network tab!",
-  "manifest_version": 2,
+  "description": "Inspect MP4 Boxes from the Network tab!",
+  "manifest_version": 3,
   "devtools_page": "html/main.html",
   "permissions": [
     "webRequest"

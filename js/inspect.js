@@ -1,15 +1,13 @@
 const detailView = document.getElementById("detailView");
 const requestTable = document.getElementById('requests');
 const detailViewPlaceholder = document.getElementById('detail-view-placeholder');
-
 const parsedDataMap = new Map();
 const rawDataMap = new Map();
 const segmentsToDisplayInPopupWindow = [];
-/** @type number[] */
+
 let openedPopupWindows = [];
 
 class RowSelectionTracker {
-  /** @type HTMLTableRowElement[] */
   allSelected = [];
   lastClickUrl;
   lastClickedRow;
@@ -17,9 +15,9 @@ class RowSelectionTracker {
   isDoubleClick;
 
   onClick(url, clickedRow, clickEvent) {
-    this.selectRowsForClick(clickEvent, clickedRow, url);
-
     const clickTime = Date.now();
+
+    this.selectRowsForClick(clickEvent, clickedRow, url);
     this.isDoubleClick = (clickTime - this.lastClickTime) < 300 && this.lastClickUrl === url;
     this.lastClickUrl = url;
     this.lastClickedRow = clickedRow;
@@ -46,32 +44,39 @@ class RowSelectionTracker {
       [...requestTable.getElementsByTagName('tr')].forEach(row => {
         row.removeAttribute('data-state');
       });
+
       this.allSelected = [];
     } else { 
       if (clickedRow.getAttribute('data-state') === 'active') {
         clickedRow.removeAttribute('data-state');
         this.allSelected = this.allSelected.filter(selection => selection !== clickedRow);
+
         return;
-      }
-      else {
+      } else {
         this.selectRow(clickedRow);
       }
     }
 
     if (clickEvent.shiftKey) {
       const visibleRows = getVisibleElements();
+
       let startIndex = -1, endIndex = -1;
+
       for (let i = 0; i < visibleRows.length; i++) {
         const currentRow = visibleRows[i];
+
         if (currentRow.getAttribute('url') === url) {
           startIndex = i;
         }
+
         if (currentRow.getAttribute('url') === this.lastClickUrl) {
           endIndex = i;
         }
       }
+
       if (endIndex == -1 || startIndex == -1) {
         console.log('Shift selection did not work, as one of the elements is not visible anymore');
+
         return this.selectRow(clickedRow);
       }
 
@@ -81,15 +86,11 @@ class RowSelectionTracker {
       for (let i = start; i <= end; i++) {
         this.selectRow(visibleRows[i]);
       }
-    }
-    else if(!clickEvent.ctrlKey && !clickEvent.metaKey) {
+    } else if(!clickEvent.ctrlKey && !clickEvent.metaKey) {
       this.selectRow(clickedRow);
     }
   }
 
-  /**
-   * @param {HTMLTableRowElement} clickedRow 
-   */
   selectRow(clickedRow) {
     clickedRow.setAttribute('data-state', 'active');
     this.allSelected.push(clickedRow);
@@ -99,16 +100,13 @@ class RowSelectionTracker {
 const selectionTracker = new RowSelectionTracker();
 
 function handleNetworkRequestClick(url, clickedRow, clickEvent) {
-  // selectRowsForClick(clickEvent, clickedRow);
-  selectionTracker.onClick(url, clickedRow, clickEvent);
-
+  const parsedBox = parsedDataMap.get(url);
   const lastSelection = selectionTracker.getLastSelection();
 
+  selectionTracker.onClick(url, clickedRow, clickEvent);
   toolbarHandler.enableToolbarButtons();
-
   clearDetailView();
 
-  const parsedBox = parsedDataMap.get(url);
   if (!parsedBox) {
     return handleNonMp4Click(url);
   }
@@ -126,15 +124,17 @@ function handleNetworkRequestClick(url, clickedRow, clickEvent) {
       openedPopupWindows.push(window.id);
     });
   } else {
-    createUrlInfoDetailHeader(url);
-
     const renderer = new BoxRenderer(url);
+
+    createUrlInfoDetailHeader(url);
     renderer.renderBoxes(parsedBox, detailView, 0);
   }
 }
 
 function handleNonMp4Click(url) {
   const data = rawDataMap.get(url);
+  const container = document.createElement('div');
+
   if (!data) {
     console.warn('No data found for ', url);
   }
@@ -142,7 +142,6 @@ function handleNonMp4Click(url) {
   hideElement(detailViewPlaceholder);
   createUrlInfoDetailHeader(url);
 
-  const container = document.createElement('div');
   // in case of xml dont use innerHtml
   container.innerText = data;
   detailView.appendChild(container);
@@ -150,6 +149,7 @@ function handleNonMp4Click(url) {
 
 function createUrlInfoDetailHeader(url) {
   const fileNameSpan = document.createElement('span');
+
   fileNameSpan.setAttribute('id', 'file-url-span');
   fileNameSpan.classList.add('file-url');
   fileNameSpan.innerHTML = 'File: ' + url;
@@ -157,8 +157,9 @@ function createUrlInfoDetailHeader(url) {
 }
 
 function arrayBufferToBase64(arrayBuffer) {
-  let base64String = '';
   const data = new Uint8Array(arrayBuffer);
+
+  let base64String = '';
 
   for (let idx = 0; idx < data.length; idx++) {
     base64String += String.fromCharCode(data[idx]);
@@ -169,19 +170,23 @@ function arrayBufferToBase64(arrayBuffer) {
 
 function stringToArrayWithoutEncoding(str) {
   const array = new Uint8Array(str.length);
+
   for (let i = 0; i < str.length; i++) {
     array[i] = str.charCodeAt(i);
   }
+
   return array;
 }
 
 function base64ToArrayBuffer(base64) {
-  var binary_string = window.atob(base64);
-  var len = binary_string.length;
-  var bytes = new Uint8Array(len);
-  for (var i = 0; i < len; i++) {
-    bytes[i] = binary_string.charCodeAt(i);
+  const binaryString = window.atob(base64);
+  const length = binaryString.length;
+  const bytes = new Uint8Array(length);
+
+  for (let idx = 0; idx < length; idx++) {
+    bytes[idx] = binaryString.charCodeAt(idx);
   }
+
   return bytes.buffer;
 }
 
@@ -250,5 +255,6 @@ function closeOpenPopupWindows() {
   } catch(err) {
     console.err('Unable to close open popup windows', err);
   }
+
   openedPopupWindows = [];
 }

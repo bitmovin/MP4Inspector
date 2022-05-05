@@ -1,4 +1,5 @@
-const scriptToInject = 
+const script = document.createElement('script');
+const scriptToInject =
 `(function overWriteSourceBufferAppendData() {
   const originalAppendBuffer = SourceBuffer.prototype.appendBuffer;
   console.log('injecting' + chrome.runtime.id, SourceBuffer.prototype.appendBuffer);
@@ -23,7 +24,5 @@ const scriptToInject =
 })();`;
 
 console.log('Injecting script to overwrite SourceBuffer.appendBuffer');
-
-const script = document.createElement('script');
 script.textContent = scriptToInject;
 document.documentElement.appendChild(script);
