@@ -37,7 +37,7 @@ class ToolbarHandler {
 
   onRecordButtonClicked = () => {
     this._isRecording = !this._isRecording;
-    recordingButton.setAttribute('data-state', this._isRecording ? 'active' : 'inactive');
+    this.recordingButton.setAttribute('data-state', this._isRecording ? 'active' : 'inactive');
   }
 
   onReloadButtonClicked = () => {
