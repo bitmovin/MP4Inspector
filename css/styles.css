@@ -51,6 +51,10 @@ body {
     border-bottom: 1px solid rgb(61, 61, 61);
 }
 
+#requestList {
+    width: 30vw;
+}
+
 #requestList, #detailView {
     height: 100%;
     overflow: auto;
