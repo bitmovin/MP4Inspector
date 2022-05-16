@@ -17,24 +17,6 @@ chrome.devtools.network.onNavigated.addListener(function() {
 });
 
 (function init() {
-  Split(
-    [
-      '#requestList',
-      '#detailView'
-    ],
-    {
-      gutterSize: 1,
-      elementStyle: (dimension, size, gutterSize) => ({
-        'flex-basis': `calc(${size}% - ${gutterSize}px)`
-      }),
-      gutterStyle: (dimension, gutterSize) => ({
-        'flex-basis':  `${gutterSize}px`
-      }),
-      minSize: [100, 100],
-      sizes: [30, 70]
-    }
-  );
-
   toolbarHandler = new ToolbarHandler();
   requestRenderer = new NetworkRequestRenderer();
   setupKeyEventHandlers();
