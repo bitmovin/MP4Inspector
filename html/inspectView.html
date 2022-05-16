@@ -52,8 +52,21 @@
   </div>
 </div>
 </body>
+  <script type="text/javascript">
+    /** @type HTMLDivElement */
+    var split = document.getElementById('resize-divider');
+    var requestTab = document.getElementById('requestList');
+    const onMouseMove = function (mouseEv) {
+      // console.log('mouse moved to', { x: mouseEv.x, y: mouseEv.y });
+      requestTab.style.width = mouseEv.x + 'px';
+    };
+    split.onmousedown = function (mouseEv) {
+      document.addEventListener('mousemove', onMouseMove);
+      document.onmouseup = () =>
+        document.removeEventListener('mousemove', onMouseMove);
+    };
+  </script>
 <script src="../js/lib/iso_boxer.js"></script>
-<script src="../js/lib/split.min.js"></script>
 <script src="../js/toolbar.js"></script>
 <script src="../js/HtmlRenderer.js"></script>
 <script src="../js/inspect.js"></script>
