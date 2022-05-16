@@ -54,6 +54,9 @@ body {
 #requestList {
     width: 30vw;
 }
+#detailView {
+    width: 70vw;
+}
 
 #requestList, #detailView {
     height: 100%;
