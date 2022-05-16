@@ -7,16 +7,23 @@ const detailsTab = document.getElementById('detailView');
 
 const minWidth = 150;
 
-const onMouseMove = function (mouseEv) {
+function resizeComponents(newDetailWidth) {
   const containerWidth = requestTab.parentElement.clientWidth;
-  const newRequestWidth = Math.max(mouseEv.x, minWidth);
-  const requestPercentageWidth = (newRequestWidth / containerWidth) * 100;
-  const detailsPercentageWidth = 100 - requestPercentageWidth;
-  requestTab.style.width = requestPercentageWidth + '%';
-  detailsTab.style.maxWidth = detailsPercentageWidth + '%';
+  const newRequestWidth = Math.max(newDetailWidth, minWidth);
+  const newDetailsWidth = containerWidth - newRequestWidth - 2;
+  requestTab.style.width = newRequestWidth + 'px';
+  detailsTab.style.width = newDetailsWidth + 'px';
+}
+
+const onMouseMove = function (mouseEv) {
+  resizeComponents(mouseEv.x);
 };
 split.onmousedown = function (_mouseEv) {
   document.addEventListener('mousemove', onMouseMove);
   document.onmouseup = () =>
     document.removeEventListener('mousemove', onMouseMove);
 };
+
+window.onresize = function() {
+  resizeComponents(requestTab.clientWidth);
+}
