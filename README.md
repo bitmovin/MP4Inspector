@@ -28,7 +28,7 @@ Filters all entries to only show entries which contain a box with the exact valu
 
 This view lets you compare the boxes of two segments.
 You can open it by selecting any two segments and pressing the compare button 
-![compareViewButton](https://user-images.githubusercontent.com/29116195/168761137-867f8526-56fe-42e3-9103-ec755e3c580a.png)
+![compareViewButton](/readmeResources/compareViewButton.png)
 
 The results will be color coded meaning:
 ```diff
