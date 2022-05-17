@@ -11,6 +11,15 @@
 
 # Usage
 
+After installation the Mp4Inspector should show up as a new tab in your DevTools.
+
+## Filter Results
+In order to narrow down the elements on the network column, there are two filter methods available.
+
+### Filter by URL
+Filters all entries to only show entries which have the filter entry as part of the URL.
+![Filter by URL part](/readmeResources/UrlSearch.gif)
+
 ## Comparison View
 
 This view lets you compare the boxes of two segments.
