@@ -13,4 +13,5 @@
 
 ## Comparison View
 
-![comparison view example](/readmeResources/CompareView.mp4)
+https://user-images.githubusercontent.com/29116195/168759477-f306db64-5158-49da-8be4-aa4424ff5628.mp4
+
