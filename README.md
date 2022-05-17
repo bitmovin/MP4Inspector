@@ -13,5 +13,16 @@
 
 ## Comparison View
 
+This view lets you compare the boxes of two segments.
+You can open it by selecting any two segments and pressing the compare button 
+![compareViewButton](https://user-images.githubusercontent.com/29116195/168761137-867f8526-56fe-42e3-9103-ec755e3c580a.png)
+
+The results will be color coded meaning:
+```diff
++ Green for boxes which are the same in both segments
+- Red for boxes / values which are different
+! Orange for boxes which only exist in one of the segments
+```
+
 https://user-images.githubusercontent.com/29116195/168759477-f306db64-5158-49da-8be4-aa4424ff5628.mp4
 
