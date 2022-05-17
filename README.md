@@ -13,4 +13,4 @@
 
 ## Comparison View
 
-<video src="./CompareView.mp4">
+![comparison view example](/readmeResources/CompareView.mp4)
