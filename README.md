@@ -14,10 +14,10 @@
 After installation the Mp4Inspector should show up as a new tab in your DevTools.
 
 ## Filter Results
-In order to narrow down the elements on the network column, there are two filter methods available. They can also be combined to only show entries which match both filter entries.
+In order to narrow down the elements on the network column, there are two filter methods available [File name](#filter-by-url) and [box name](#filter-by-mp4-box). They can also be combined to only show entries which match both filter entries.
 
 ### Filter by URL
-Filters all entries to only show entries which have the filter entry as part of the URL.
+Filters all entries to only show entries which have their URL partially matching the entered value.
 ![Filter by URL part](/readmeResources/UrlSearch.gif)
 
 ### Filter by Mp4 Box
