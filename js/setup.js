@@ -46,6 +46,54 @@ chrome.devtools.network.onRequestFinished.addListener(
     requestRenderer.addNetworkRequestEntry(response.request.url);
 });
 
+function overWriteSourceBufferAppendData(extensionId) {
+  const originalAppendBuffer = SourceBuffer.prototype.appendBuffer;
+  console.log('injecting append buffer listener');
+
+  SourceBuffer.prototype.appendBuffer = function (data) {
+    originalAppendBuffer.call(this, data);
+
+    try {
+      if (!extensionId) {
+        return;
+      }
+
+      chrome.runtime.sendMessage(extensionId, {
+        type: 'segment-appended',
+        data: arrayBufferToBase64(data),
+      });
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  function arrayBufferToBase64(arrayBuffer) {
+    let base64String = '';
+    const data = new Uint8Array(arrayBuffer);
+
+    for (let idx = 0; idx < data.length; idx++) {
+      base64String += String.fromCharCode(data[idx]);
+    }
+
+    return window.btoa(base64String);
+  }
+}
+
+chrome.tabs.query(
+  {currentWindow: true, active : true},
+  function(tabArray){
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabArray[0].id },
+        func: overWriteSourceBufferAppendData,
+        args: [chrome.runtime.id],
+        world: 'MAIN',
+      },
+      () => {}
+    );
+  }
+)
+
+
 chrome.runtime.onMessage.addListener(function(request) {
   if (request.type === 'popup-opened' && segmentsToDisplayInPopupWindow.length > 0) {
     const entry = segmentsToDisplayInPopupWindow.shift();
