@@ -39,3 +39,8 @@ The results will be color coded meaning:
 
 ![Comparison view in action](/readmeResources/CompareView.gif)
 
+## Download segments
+For more detailed inspection (eg: FFProbe or crafting a test asset), the MP4Inspector offers the possibility to download segments. You can select one or multiple entries in the network column and click the download button. A download will be started for each selected entry, but Chrome will only allow 10 downloads at a time.
+
+There is also the possiblity to concatenate segments, which can be used to create a playable part of the asset by combining the init segment with any number of data segments. Currently muxing is not supported, so you have to ensure that only audio or video segments are selected.
+
