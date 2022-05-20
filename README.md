@@ -46,3 +46,7 @@ For more detailed inspection (eg: FFProbe or crafting a test asset), the MP4Insp
 There is also the possiblity to concatenate segments, which can be used to create a playable part of the asset by combining the init segment with any number of data segments. Currently muxing is not supported, so you have to ensure that only audio or video segments are selected.
 
 ![Download possibilities](/readmeResources/download.gif)
+
+# Join the Community
+
+If you have any questions or want to share feedback please feel free to join the [Bitmovin Community](https://community.bitmovin.com)
