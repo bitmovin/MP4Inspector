@@ -1,7 +1,7 @@
 # MP4Inspector
 <img src="https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/l2q8nl1mv69fkeim79rl" alt="trackgit-views" />
 
-A chrome extension to help you inspect Mp4 content and find irregularities in streams.
+A Chrome extension to help you inspect Mp4 video content and find irregularities in video streams.
 
 # Installation
 
