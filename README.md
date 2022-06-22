@@ -1,7 +1,10 @@
 # MP4Inspector
-<img src="https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/l2q8nl1mv69fkeim79rl" alt="trackgit-views" />
 
-A chrome extension to help you inspect Mp4 content and find irregularities in streams.
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Release](https://badgen.net/github/release/bitmovin/MP4Inspector/stable)](https://github.com/bitmovin/MP4Inspector/releases/latest)
+![TrackGit Views](https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/l2q8nl1mv69fkeim79rl)
+
+A Chrome extension to help you inspect Mp4 video content and find irregularities in video streams.
 
 # Installation
 
@@ -28,7 +31,8 @@ Filters all entries to only show entries which contain a box with the exact valu
 ## Comparison View
 
 This view lets you compare the boxes of two segments.
-You can open it by selecting any two segments and pressing the compare button 
+You can open it by selecting any two segments and pressing the compare button
+
 ![compareViewButton](/readmeResources/compareViewButton.png)
 
 The results will be color coded meaning:
@@ -52,3 +56,8 @@ There is also the possiblity to concatenate segments, which can be used to creat
 In case a transmuxing step is executed and the Mp4 Data structure is not available at the time of downloading or if the player rewrites Mp4 data, it might be interesting to inspect the data which gets pushed into the `SourceBuffer`s.
 To enable this functionality, the Mp4Inspector comes with a code injection approach, which overwrites `SourceBuffer.prototype.appendBuffer` and sends the appended data to the extension. As code injection is quite the dangerous territory, the URLs for this functionality have to be allow-listed in the `manifest.json` file under `host_permissions` (to allow the injection) and `externally_connectable` (to allow communication with the extension).
 By default this is enabled for localhost, if you need any more URLs, you will have to add them to the manifest. CHeck https://developer.chrome.com/docs/extensions/mv3/permission_warnings/#permissions_with_warnings for more information.
+
+
+# Join the Community
+
+If you have any questions or want to share feedback please feel free to join the [Bitmovin Community](https://community.bitmovin.com)
