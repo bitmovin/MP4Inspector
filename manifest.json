@@ -1,7 +1,12 @@
 {
-  "name": "MP4 Inspector",
-  "version": "1.0",
-  "description": "Inspect MP4 Boxes from the Network tab!",
+  "name": "MP4Inspector",
+  "version": "1.0.1",
+  "description": "Inspect MP4 Boxes from the DevTools!",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
   "manifest_version": 3,
   "devtools_page": "html/main.html",
   "permissions": [
