@@ -14,6 +14,7 @@ chrome.devtools.network.onNavigated.addListener(function() {
     clearDetailView();
     closeOpenPopupWindows();
   }
+  installSourceBufferOverwrite();
 });
 
 (function init() {
@@ -78,21 +79,63 @@ function overWriteSourceBufferAppendData(extensionId) {
   }
 }
 
-chrome.tabs.query(
-  {currentWindow: true, active : true},
-  function(tabArray){
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: tabArray[0].id },
-        func: overWriteSourceBufferAppendData,
-        args: [chrome.runtime.id],
-        world: 'MAIN',
-      },
-      () => {}
-    );
-  }
-)
+function getCurrentTab() {
+  return new Promise((resolve, reject) => {
+    function onTabsAvailable(tabArray) {
+      if (tabArray && tabArray.length > 0) {
+        resolve(tabArray[0]);
+      } else {
+        reject('No active tab');
+      }
+    }
+    chrome.tabs.query({ currentWindow: true, active: true }, onTabsAvailable);
+  });
+}
 
+function ensureScriptingPermission(activeTab) {
+  return new Promise((resolve, reject) => {
+    if (!activeTab.url) {
+      // it seems that the url is only exposed when the url is listed in the
+      // host_permissions or externally_connectable entries in the manifest.json
+      // if this is not filled, this is a good indicator for missing permissions
+      reject(
+        'activeTab.url is missing, so we cant check for permissions on the current page'
+      );
+    }
+
+    const permissions = {
+      permissions: ['scripting'],
+      origins: [activeTab.url],
+    };
+    chrome.permissions.contains(permissions, function (hasPermission) {
+      if (hasPermission) {
+        resolve(activeTab);
+      } else {
+        reject('No scripting permission on the url: ' + activeTab.url);
+      }
+    });
+  });
+}
+
+function installSourceBufferOverwrite() {
+  getCurrentTab()
+    .then((activeTab) => ensureScriptingPermission(activeTab))
+    .then((activeTab) => {
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: activeTab.id },
+          func: overWriteSourceBufferAppendData,
+          args: [chrome.runtime.id],
+          world: 'MAIN',
+        },
+        () => { /* done callback without params */ }
+      );
+    })
+    .catch((error) => {
+      console.error('Unable to setup SourceBuffer.append overwrite', error);
+    });
+}
+installSourceBufferOverwrite();
 
 chrome.runtime.onMessage.addListener(function(request) {
   if (request.type === 'popup-opened' && segmentsToDisplayInPopupWindow.length > 0) {
@@ -121,6 +164,4 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, _sendResp
     parsedDataMap.set(url, parsedBox);
     requestRenderer.addNetworkRequestEntry(url);
   }
-
-  console.log('chrome.runtime.onMessageExternal', request)
 });
