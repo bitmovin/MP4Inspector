@@ -123,7 +123,7 @@ function ensureScriptingPermission(activeTab) {
 
 function installSourceBufferOverwrite() {
   getCurrentTab()
-    .then((activeTab) => ensureScriptingPermission(activeTab))
+    .then(ensureScriptingPermission)
     .then((activeTab) => {
       chrome.scripting.executeScript(
         {
