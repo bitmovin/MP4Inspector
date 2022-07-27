@@ -53,7 +53,7 @@ There is also the possiblity to concatenate segments, which can be used to creat
 
 # Capturing generated data
 
-In case a transmuxing step is executed and the MP4 Data structure is not available at the time of downloading or if the player rewrites MP4 data, it might be interesting to inspect the data which gets pushed into the `SourceBuffer`s.
+In case a transmuxing step is executed and the MP4 data structure is not available at the time of downloading or if the player rewrites MP4 data, it might be interesting to inspect the data which gets pushed into the `SourceBuffer`s.
 To enable this functionality, the MP4Inspector comes with a code injection approach, which overwrites `SourceBuffer.prototype.appendBuffer` and sends the appended data to the extension. As code injection is quite the dangerous territory, the URLs for this functionality have to be allow-listed in the `manifest.json` file under `host_permissions` (to allow the injection) and `externally_connectable` (to allow communication with the extension).
 By default this is enabled for localhost, if you need any more URLs, you will have to add them to the manifest. Check https://developer.chrome.com/docs/extensions/mv3/permission_warnings/#permissions_with_warnings for more information.
 
