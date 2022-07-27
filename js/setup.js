@@ -103,7 +103,7 @@ function ensureScriptingPermission(activeTab) {
       // host_permissions or externally_connectable entries in the manifest.json
       // if this is not filled, this is a good indicator for missing permissions
       reject(
-        'activeTab.url is missing, so we cant check for permissions on the current page'
+        "activeTab.url is missing, so we can't check for permissions on the current page"
       );
     }
 
