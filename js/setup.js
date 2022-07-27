@@ -132,7 +132,7 @@ function installSourceBufferOverwrite() {
       );
     })
     .catch((error) => {
-      console.error('Unable to setup SourceBuffer.append overwrite', error);
+      console.warn('Unable to setup SourceBuffer.append overwrite', error);
     });
 }
 installSourceBufferOverwrite();
