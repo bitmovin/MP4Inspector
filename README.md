@@ -4,7 +4,7 @@
 [![Release](https://badgen.net/github/release/bitmovin/MP4Inspector/stable)](https://github.com/bitmovin/MP4Inspector/releases/latest)
 ![TrackGit Views](https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/l2q8nl1mv69fkeim79rl)
 
-A Chrome extension to help you inspect Mp4 video content and find irregularities in video streams.
+A Chrome extension to help you inspect MP4 video content and find irregularities in video streams.
 
 # Installation
 
@@ -15,7 +15,7 @@ A Chrome extension to help you inspect Mp4 video content and find irregularities
 
 # Usage
 
-After installation the Mp4Inspector should show up as a new tab in your DevTools.
+After installation the MP4Inspector should show up as a new tab in your DevTools.
 
 ## Filter Results
 In order to narrow down the elements on the network column, there are two filter methods available [File name](#filter-by-url) and [box name](#filter-by-mp4-box). They can also be combined to only show entries which match both filter entries.
@@ -24,7 +24,7 @@ In order to narrow down the elements on the network column, there are two filter
 Filters all entries to only show entries which have their URL partially matching the entered value.
 ![Filter by URL part](/readmeResources/UrlSearch.gif)
 
-### Filter by Mp4 Box
+### Filter by MP4 Box
 Filters all entries to only show entries which contain a box with the exact value in the search field.
 ![Filter by URL part](/readmeResources/BoxSearch.gif)
 
@@ -53,8 +53,8 @@ There is also the possiblity to concatenate segments, which can be used to creat
 
 # Capturing generated data
 
-In case a transmuxing step is executed and the Mp4 Data structure is not available at the time of downloading or if the player rewrites Mp4 data, it might be interesting to inspect the data which gets pushed into the `SourceBuffer`s.
-To enable this functionality, the Mp4Inspector comes with a code injection approach, which overwrites `SourceBuffer.prototype.appendBuffer` and sends the appended data to the extension. As code injection is quite the dangerous territory, the URLs for this functionality have to be allow-listed in the `manifest.json` file under `host_permissions` (to allow the injection) and `externally_connectable` (to allow communication with the extension).
+In case a transmuxing step is executed and the MP4 Data structure is not available at the time of downloading or if the player rewrites MP4 data, it might be interesting to inspect the data which gets pushed into the `SourceBuffer`s.
+To enable this functionality, the MP4Inspector comes with a code injection approach, which overwrites `SourceBuffer.prototype.appendBuffer` and sends the appended data to the extension. As code injection is quite the dangerous territory, the URLs for this functionality have to be allow-listed in the `manifest.json` file under `host_permissions` (to allow the injection) and `externally_connectable` (to allow communication with the extension).
 By default this is enabled for localhost, if you need any more URLs, you will have to add them to the manifest. Check https://developer.chrome.com/docs/extensions/mv3/permission_warnings/#permissions_with_warnings for more information.
 
 
