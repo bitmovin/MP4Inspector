@@ -47,6 +47,10 @@ chrome.devtools.network.onRequestFinished.addListener(
     requestRenderer.addNetworkRequestEntry(response.request.url);
 });
 
+/**
+ * This function will be injected into the main page and be executed there.
+ * @param {string} extensionId the chrome.runtime.id of the Mp4Inspector
+ */
 function overWriteSourceBufferAppendData(extensionId) {
   const originalAppendBuffer = SourceBuffer.prototype.appendBuffer;
   console.log('injecting append buffer listener');
