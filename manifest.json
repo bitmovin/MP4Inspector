@@ -9,13 +9,11 @@
   },
   "manifest_version": 3,
   "devtools_page": "html/main.html",
+  "permissions": ["scripting"],
+  "host_permissions": ["*://localhost/*"],
   "externally_connectable": {
     "matches": ["*://localhost/*"]
   },
-  "content_scripts": [{
-    "matches": ["*://localhost/*"],
-    "js": ["js/injectOverwriteAppendBuffer.js"]
-  }],
   "commands": {
     "reload": {
       "description": "Reloads the content page",
