@@ -1,6 +1,6 @@
 {
   "name": "MP4Inspector",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Inspect MP4 Boxes from the DevTools!",
   "icons": {
     "16": "images/icon16.png",
