@@ -3,6 +3,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Release](https://badgen.net/github/release/bitmovin/MP4Inspector/stable)](https://github.com/bitmovin/MP4Inspector/releases/latest)
 ![TrackGit Views](https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/l2q8nl1mv69fkeim79rl)
+[![Bitmovin Community](https://img.shields.io/discourse/users?label=community&server=https%3A%2F%2Fcommunity.bitmovin.com)](https://community.bitmovin.com/?utm_source=github&utm_medium=MP4Inspector&utm_campaign=dev-community)
 
 A Chrome extension to help you inspect MP4 video content and find irregularities in video streams.
 
@@ -60,4 +61,4 @@ By default this is enabled for localhost, if you need any more URLs, you will ha
 
 # Join the Community
 
-If you have any questions or want to share feedback please feel free to join the [Bitmovin Community](https://community.bitmovin.com)
+If you have any questions or want to share feedback please feel free to join the [Bitmovin Community](https://community.bitmovin.com/?utm_source=github&utm_medium=MP4Inspector&utm_campaign=dev-community)
