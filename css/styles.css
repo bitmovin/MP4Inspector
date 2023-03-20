@@ -154,10 +154,6 @@ table.attribute-container {
     user-select: none;
 }
 
-.sprite {
-    -webkit-mask-image: url("../images/largeIcons.svg");
-}
-
 .button-glyph {
     width: 24px;
     height: 24px;
@@ -321,7 +317,6 @@ table.attribute-container {
 #detail-view-placeholder {
     width: 100%;
     height: 100%;
-    text-align-all: center;
 }
 
 #detail-view-placeholder td {

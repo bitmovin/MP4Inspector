@@ -19,6 +19,18 @@ class ToolbarHandler {
 
     document.body.appendChild(this.downloadLink);
     this.downloadLink.style = "display: none";
+
+    this.createSpriteBackgroundUrl();
+  }
+
+  createSpriteBackgroundUrl() {
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    const url = chrome.runtime.getURL('images/largeIcons.svg');
+    style.sheet.insertRule(`.sprite {
+      -webkit-mask-image: url(${url});
+      mask-image: url(${url});
+    }`, 0)
   }
 
   shouldPreserveLog() {
